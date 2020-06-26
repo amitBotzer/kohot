@@ -19,6 +19,16 @@ class Playground:
         :return: whether this playground is open in the desired time.
         """
         for time_range in self._opening_hours:
-            if time_range[0] < desired_time < time_range[1]:
+            if time_range[0] <= desired_time <= time_range[1]:
+                return True
+        return False
+
+    def is_open_at_range(self, desired_time_range: (str, str)):
+        """
+        :param desired_time_range: the desired time range given as a tuple of two strings such as ('hhmm', 'hhmm')
+        :return: whether this playground is open during the all time range.
+        """
+        for time_range in self._opening_hours:
+            if time_range[0] <= desired_time_range[0] and desired_time_range[1] <= time_range[1]:
                 return True
         return False

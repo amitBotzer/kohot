@@ -14,3 +14,9 @@ class TestPlayground(unittest.TestCase):
 
     def test_is_open_at_opening_time(self):
         self.assertEqual(True, self.pg.is_open_at('1800'))
+
+    def test_is_open_at_range_opening_time(self):
+        self.assertEqual(True, self.pg.is_open_at_range(desired_time_range=('1800', '2000')))
+
+    def test_is_open_at_range_closing_time(self):
+        self.assertEqual(False, self.pg.is_open_at_range(desired_time_range=('2100', '2300')))

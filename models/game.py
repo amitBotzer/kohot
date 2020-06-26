@@ -20,19 +20,19 @@ class PlayerNotFoundException(Exception):
 class Game:
 
     def __init__(self, playground: Playground, playtime: (str, str), players: list = []):
-        if not playground.is_open_at(playtime):
+        if not playground.is_open_at_range(playtime):
             raise InvalidPlaytimeException()
         self._playground = playground
         self._playtime = playtime
         self._players = players
 
     def change_playground(self, new_playground: Playground):
-        if not new_playground.is_open_at(self._playtime):
+        if not new_playground.is_open_at_range(self._playtime):
             raise InvalidPlaytimeException()
         self._playground = new_playground
 
     def change_playtime(self, new_playtime: (str, str)):
-        if not self._playground.is_open_at(new_playtime):
+        if not self._playground.is_open_at_range(new_playtime):
             raise InvalidPlaytimeException()
         self._playtime = new_playtime
 
@@ -45,3 +45,9 @@ class Game:
         if player not in self._players:
             raise PlayerNotFoundException()
         self._players.remove(player)
+
+    def get_playground(self):
+        return self._playground
+
+    def get_playtime(self):
+        return self._playtime
