@@ -5,6 +5,8 @@ from models.game import Game
 from models.playground import Playground
 from models.player import Player
 from models.game import InvalidPlaytimeException
+from models.game import PlayerIsAlreadyInException
+from models.game import PlayerNotFoundException
 
 
 class TestGame(unittest.TestCase):
@@ -55,15 +57,21 @@ class TestGame(unittest.TestCase):
         game = Game(playground=self.playground_a, playtime=('2000', '2200'), players=self.players)
         game.change_playtime(new_playtime=('1600', '1800'))
         self.assertEqual(game.get_playtime(), ('1600', '1800'))
+    
+    def test_add_new_player_fails_when_player_exists(self):
+        game = Game(playground=self.playground_a, playtime=('2000', '2200'), players=self.players)
+        self.assertRaises(PlayerIsAlreadyInException, lambda: game.add_new_player(self.players[0]))
 
-"""
-    def add_new_player(self, new_player: Player):
-        if new_player in self._players:
-            raise PlayerIsAlreadyInException()
-        self._players.append(new_player)
+    def test_add_new_player_accepts_new_player(self):
+        game = Game(playground=self.playground_a, playtime=('2000', '2200'), players=[self.players[0]])
+        game.add_new_player(self.players[1])
+        self.assertTrue(self.players[1] in game.get_players())
 
-    def remove_player(self, player: Player):
-        if player not in self._players:
-            raise PlayerNotFoundException()
-        self._players.remove(player)
-"""
+    def test_remove_player_fails_when_player_isnt_exist(self):
+        game = Game(playground=self.playground_a, playtime=('2000', '2200'), players=[self.players[0]])
+        self.assertRaises(PlayerNotFoundException, lambda: game.remove_player(self.players[1]))
+
+    def test_remove_player_works_when_player_is_found(self):
+        game = Game(playground=self.playground_a, playtime=('2000', '2200'), players=self.players)
+        game.remove_player(self.players[1])
+        self.assertListEqual(game.get_players(), [self.players[0]])

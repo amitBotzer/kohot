@@ -51,3 +51,6 @@ class Game:
 
     def get_playtime(self):
         return self._playtime
+
+    def get_players(self):
+        return self._players
