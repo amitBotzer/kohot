@@ -4,7 +4,7 @@ import datetime
 from models.player import Player
 
 
-class PlayerTest(unittest.TestCase):
+class TestPlayer(unittest.TestCase):
 
     def setUp(self):
         date_of_birth = datetime.datetime(1992, 12, 13)
