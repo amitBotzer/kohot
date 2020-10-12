@@ -1,10 +1,9 @@
-
 from models.game import Game
 from models.playground import Playground
 from datetime import date
 
 
-class GamedDataAccessor:
+class GamesDataAccessor:
 
     def store_game(self, game: Game):
         pass
